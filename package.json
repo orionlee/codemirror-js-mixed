@@ -1,0 +1,36 @@
+{
+  "name": "codemirror-js-mixed",
+  "version": "0.9.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "description": "Language mode javascript-mixed for CodeMirror, supporting HTML/CSS highlighting in javascript codes",
+  "keywords": [
+    "Editor",
+    "CodeMirror",
+    "Javascript",
+    "HTML",
+    "CSS",
+    "userscripts",
+    "addon"
+  ],
+  "peerDependencies": {
+    "codemirror": "^5.55.0"
+  },
+  "devDependencies": {
+    "codemirror": "^5.55.0"
+  },
+  "author": "Sam Lee <orionlee@yahoo.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orionlee/codemirror-js-mixed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/orionlee/codemirror-js-mixed/issues"
+  },
+  "homepage": "https://github.com/orionlee/codemirror-js-mixed",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  }
+}
