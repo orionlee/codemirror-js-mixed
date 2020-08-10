@@ -21,12 +21,15 @@ GM_addStyle(`
 }`);
 GM_addStyle(` a { color: pink; }`);
 
+// Greasemonkey v4 style of addStyle
+GM.addStyle(` a { color: pink; }`);
+
 someElt.innerHTML = `<span id="bar">
   123 <!-- html comments -->
 </span>`;
 
 // highlight arbitrary string template with a inline comment as a hint
-const someHTML = /* html */ `\
+const someHTML = /* html */ `some text
 <br>
   <hr class="acme">`;
 
@@ -34,10 +37,39 @@ let someCSS = /* CSS  */ `.a:visited {
   color: purple;
 }`;
 
+// the inline comment hint also works for tagged string template
+let someCSS = String.raw /*css*/ `\
+#\some-id {
+  color: purple;
+}`;
+
 // auto detect html-like string template without the hint
 const otherHTML = `<div class="bar">
   hello
 </div>`;
+
+// corner case: that  text after the last html tag / css rule.
+// ensure they won't break subsequent highlighting
+someHTML=`<p>text</p>\n`;
+foo = 1;
+someHTML=`<p>text</p>\n`; // some comments after the template
+foo = 1;
+someHTML=`<p>text</p>more text post last tag`;
+foo = 1;
+GM_addStyle(`.foo {
+ border: 1px;
+} acme`;
+bar = 1;
+
+// corner case: there are backticks within HTML string templates
+someHTML=`<p>text
+  line 2 with \`, i.e., escaped backtick
+</p>`;
+foo = 1;
+someHTML=`<p>text
+  line 2 ended escaped backtick, i.e., \`
+</p>`;
+bar = 1;
 
 // plain string support
 
@@ -54,10 +86,302 @@ var dbgMsg = '<-- output'; // doesn't get mistaken as html
 
 // some limitations
 //
-someElt.innerHTML = "<br class=\" foo\">" +  // does not hanlde some escaping well
+someElt.innerHTML = "<br class=\" foo\">" +  // does not handle some escaping well
              '<div class="' + classToUse + '"></div>' + // doesn't detect if a string begins with a partial tag
              'plain text <hr>'; // doesn't detect if some plain text at the beginning.
 
 console.debug('<dbg> this is some debug statement'); // mistaken as html as the string  starts with a tag
+
+//
+// Tests for handling js expression inside a string template,
+// especially those with nested string templates.
+
+// Ensure js expression inside tag text content are handled properly
+someUi = `<section title='foo'>${someText}<section>`;
+someUi =   `<section title='foo'>prefix${someText}suffix<section>`;
+someUi =   `<section title='foo'>prefix${someText}<section>`;
+someUi =   `<section title='foo'>${someText}suffix<section>`;
+someUi = `<section title='foo'>
+    ${someText}
+<section>`;
+// nested string template in tag text
+someUi = `<section title='foo'>
+    ${someCond ? `true-${someVarValue}`
+  : getFalseText()}
+<section>`;
+
+// ensure backtick within a JS expression are tokenized as part of the expression,
+// rather than incorrectly ending the string template
+let someUi = `<section title="${trimLeft(`
+  Some title
+`)}">Hello World
+</section>`);
+
+// works too for backtick in the expression not at the beginning of a token/line.
+let someUi = `<section title="${trimLeft(`
+  Some title`)}">Hello World
+</section>`);
+
+// ensure simple cases work too
+let someUi = `<section title="${someTitle}">Hello<section>`;
+someUi = `<section title="prefix ${someTitle} suffix">Hello<section>`;
+someUi = `<section>${someTextFunc()}<section>`;
+
+// different attribute value quoting styles
+someUi = `<section title='${someTitle}'>Hello<section>`;
+someUi = `<section id="${someId}" title='${someTitle}'>Hello<section>`;
+someUi = `<section id="${someId}" title='${someTitle}' col=${getCol()}>Hello<section>`;
+
+// js expressions in multi-lined attribute value
+someUi = `<span title="${someVar}
+  ">text content</span>`;
+
+someUi = `<span title="
+${someVar}">
+  text content</span>`
+
+someUi = `<span title="
+  ${someVar}">
+  text content</span>`
+
+someUi = `<span title="foo
+      ${someVar}  blah">
+  text content</span>`
+
+someUi = `<span title="foo
+      ${someVar}
+  blah">
+  text content</span>`
+
+// ensure nested case works too
+let someUi = `<section title="${trimLeft(`
+  Some title ${foo ? `val1` :`val2
+`}
+`)}">Hello World
+</section>`);
+
+// nested case 2
+let someUi = `<section title="${trimLeft(`
+  Some title
+  ${someExpr()}
+`)}">Hello World
+</section>`);
+
+// leading blank spaces before inner ending backtick
+let someUi = `<section title="${trimLeft(`
+  Some title
+  ${someExpr()}
+  `)}">Hello World
+</section>`);
+
+// } inside the expression is treated properly too
+let someUi = `<section title="${trimLeft(`
+  Some title } the close curly bracket is not mistaken as the ending bracket
+<br>other text
+`)}">Hello World
+</section>`);
+
+someUi = `<section title="${trimLeft(`
+  Some title
+}
+the close curly bracket above (a standalone token) is not mistaken as the ending bracket
+<br>other text
+`)}">Hello World
+</section>`);
+
+// corner cases involving escaping
+// - not a legit js expression, as the $ is escaped
+someUi = String.raw`<p>prefix\${expr1()}suffix2</p><hr>`;
+// - a legit js expression, the $ looks escaped, but it is not: the backslash itself is escaped
+someUi = String.raw`<p>prefix\\${expr1()}suffix</p><hr>`;
+
+const foo = 1;
+
+// works for CSS too
+
+// js expression in CSS
+// cases js expression in property value
+/*css*/ `#m-popup {
+  position: ${posVar ? 'fixed' : 'absolute'};
+  color: red; /* tokenization recover in subsequent line */
+  background-color: ${backgroundColorVal};
+  border: 1px ${styleVarCall(param1)} ${borderColorVar};
+  margin-top: 1em;
+  font-family: ${preferredFont}, 'Times New Roman', Times, serif;
+  margin-bottom: ${marginBot}em;
+}`;
+
+// cases js expression in property name
+/*css*/ `#m-popup {
+  ${marginPropVar}: 1px; /* some css comment */
+  ${marginOrPaddingVar}-left: 1px;
+  color: red;
+}`;
+
+
+// case the js expression is for entire property-value
+someUi = /*css*/ `#m-popup {
+  position: fixed;
+  ${someCond ? 'max-width: 100%;' : ''}
+  color: red;
+}`;
+
+
+// case the js expression contains nested backticks (in js expression)
+// ensure it does not screw up the the tokenization of the rest
+someUi = /*css*/ `#m-popup {
+  position: fixed;
+  ${someCond ? `max-width: ${floor(maxPct)}%;` : ''}
+  color: red;
+  /* sub case the nested string template spans multiple lines */
+  ${someCond ? `max-width: ${floor(
+maxPct)}%;` : ''}
+  background-color: #333;
+}`;
+
+// case the value of content (that css tokenizer treats it as long token)
+GM_addStyle(`.foo {
+  content: ${someCond ? func1() : func2()};
+  color: red;
+}`);
+
+// multi-line in content: js expression is tokenized correctly,
+// a minor glitch for the end comma (see limitation in quoted string below)
+GM_addStyle(`.foo {
+  content: "${trimBlanks(`
+  Some title
+`)}";
+  color: red;
+}
+
+.bar {
+  border: 1px solid;
+}`);
+
+
+// cases the js expression is in a quoted string in CSS
+
+// sub-case the js expression is the entire quoted string
+GM_addStyle(`.foo {
+  content: "${someContent}";
+  color: red;
+}`);
+
+// sub-case: additional quoted string after the js expression
+GM_addStyle(`.foo {
+  font-family: '${preferredFont}', 'Times New Roman', Times, serif;
+  color: red;
+}
+
+.bar {
+  font-family: '${preferredFont}', '${fallBackFont}', Times, serif;
+  color: red;
+}`);
+
+// sub-case the js expression has prefix / suffix
+GM_addStyle(`.foo {
+  content: "prefix ${someContent} suffix";
+  color: red;
+}
+
+.bar {
+  content: "${someContent}suffix";
+  color: red;
+}
+
+.bar2 {
+  content: "prefix${someContent}";
+  color: red;
+}`);
+
+// Media queries
+GM.addStyle(`\
+@media screen and (max-width: ${maxWidthPlusUnit}) {
+  .side-nav {
+    display: none;
+  }
+}
+
+@media ${critieria1} and (${critieria2}: 600px) {
+  .side-nav {
+    display: ${displayVar};
+    background-color: darkblue;
+  }
+}
+`);
+
+// Limitation: cases js expression is a partial property name
+// tokenizer would indicate errors when there is none.
+GM_addStyle(`#m-popup {
+  border-${leftOrRightVal}: 1px solid;
+  color: red;
+}`);
+
+// Limitation: cases there are multiple js expressions in 1 quoted string
+// only the first one expression is tokenized as such. the rest are string
+GM_addStyle(`.bar3 {
+  content: "${someContent1}${someContent2}";
+  color: red;
+}
+.bar4 {
+  content: "prefix ${someContent1} foo ${someContent2} suffix";
+  color: red;
+}
+`);
+
+// Limitation: cases when numbers (with units) contain JS expressions
+// when there are JS expressions, there is no reliable way to
+// tell the resulting string would be a number
+GM_addStyle(`.foo {
+  font-size: 16px; /* for reference for normal styling */
+  margin-bottom: ${marginBot}em;
+  margin-top: 12${marginUnit};
+  margin-left: ${marginLeft}${marginUnit};
+}
+
+@media screen and (max-width: 300${unitVar}) {
+  .side-nav {
+    display: none;
+  }
+}
+
+@media screen and (max-width: ${maxWidthNoUnit}px) {
+  .side-nav {
+    display: block;
+  }
+}
+`);
+
+// Support highlighting css/javascript in <style>, <script> tags in html
+someMixedHtml = `<div>123</div>
+<style>
+  /* embedded css in html string template, with js expressions */
+  .foo {
+    background-color: #333;
+    position: ${posVar ? 'fixed' : 'absolute'};
+    border: 1px ${styleVarCall(param1)} ${borderColorVar};
+    font-family: '${preferredFont}', 'Times New Roman', Times, serif;
+    ${someCond ? `max-width: ${floor(maxPct)}%;` : ''}
+    color: red;
+    ${someCond ? `max-width: ${floor(
+  maxPct)}%;` : ''}
+    ${borderPropName}: 1px;
+    margin-top: 1em;
+  }
+</style>
+<script>
+  const res = someFunc(arg1);
+  // case js expression is evaluated and
+  // the result, not the string template, is to be part of the script.
+  const foo = someFunc(${someCond ? true : false});
+
+  // cases the script contains its own js string templates (thus escaping)
+  // limitation: it will screw up syntax highlighting for the rest of the script text
+  let bar1 = \`some content in string template\`;
+  let bar2 = \`\${someFunc() + 456}\`;
+  let bar3 = 123;
+</script>
+<p> Text after script tag <em>highlighted</em> correctly.</p>
+`;
 
 var end = true;
