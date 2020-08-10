@@ -1,0 +1,2751 @@
+comment | // ==UserScript==
+undefined |
+comment | // @name Test HTML/CSS highlights
+undefined |
+comment | // ==/UserScript==
+undefined |
+undefined |
+variable | document
+undefined | .
+property | body
+undefined | .
+property | insertAdjacentHTML
+undefined | (
+string | 'beforeend'
+undefined | ,
+null |
+string-2 | `
+tag bracket | <
+tag | div
+null |
+attribute | class
+null | =
+string | "foo"
+tag bracket | >
+undefined |
+null |
+tag bracket | <
+tag | p
+tag bracket | >
+null | hello
+tag bracket | <
+tag | i
+tag bracket | >
+null | world
+tag bracket | </
+tag | i
+tag bracket | >
+tag bracket | </
+tag | p
+tag bracket | >
+undefined |
+tag bracket | </
+tag | div
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+variable | someElt
+undefined | .
+property | insertAdjacentHTML
+undefined | (
+string | 'afterbegin'
+undefined | ,
+null |
+string-2 | `\
+undefined |
+string-2 |
+tag bracket | <
+tag | hr
+null |
+attribute | class
+null | =
+string | "bar"
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+null |
+comment | // html can appear in second line
+undefined |
+undefined |
+keyword | var
+null |
+def | insertPos
+null |
+operator | =
+null |
+string | 'afterbegin'
+undefined | ;
+null |
+comment | // variable also okay, extra spaces okay too
+undefined |
+variable | otherElt
+undefined | .
+property | insertAdjacentHTML
+null |
+undefined | (
+null |
+variable | insertPos
+undefined | ,
+null |
+string-2 | `
+tag bracket | <
+tag | div
+null |
+attribute | style
+null | =
+string | "margin: 1em;"
+tag bracket | >
+undefined |
+null |
+null | hello
+undefined |
+tag bracket | </
+tag | div
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+undefined |
+builtin | #some-id
+null |
+tag | div
+null |
+null | {
+undefined |
+null |
+property | color
+null | :
+null |
+atom | #FF0000
+null | ;
+undefined |
+null |
+property | border-bottom
+null | :
+null |
+number | 1px
+null |
+atom | solid
+null |
+keyword | gray
+null | ;
+undefined |
+null |
+property | z-index
+null | :
+null |
+number | 123
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+null |
+tag | a
+null |
+null | {
+null |
+property | color
+null | :
+null |
+keyword | pink
+null | ;
+null |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // Greasemonkey v4 style of addStyle
+undefined |
+variable | GM
+undefined | .
+property | addStyle
+undefined | (
+string-2 | `
+null |
+tag | a
+null |
+null | {
+null |
+property | color
+null | :
+null |
+keyword | pink
+null | ;
+null |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+variable | someElt
+undefined | .
+property | innerHTML
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | span
+null |
+attribute | id
+null | =
+string | "bar"
+tag bracket | >
+undefined |
+null |
+null | 123
+comment | <!-- html comments -->
+undefined |
+tag bracket | </
+tag | span
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // highlight arbitrary string template with a inline comment as a hint
+undefined |
+keyword | const
+null |
+def | someHTML
+null |
+operator | =
+null |
+comment | /* html */
+null |
+string-2 | `
+null | some text
+undefined |
+tag bracket | <
+tag | br
+tag bracket | >
+undefined |
+null |
+tag bracket | <
+tag | hr
+null |
+attribute | class
+null | =
+string | "acme"
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+keyword | let
+null |
+def | someCSS
+null |
+operator | =
+null |
+comment | /* CSS  */
+null |
+string-2 | `
+qualifier | .a
+null | :
+variable-3 | visited
+null |
+null | {
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | purple
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // the inline comment hint also works for tagged string template
+undefined |
+keyword | let
+null |
+def | someCSS
+null |
+operator | =
+null |
+variable | String
+undefined | .
+property | raw
+null |
+comment | /*css*/
+null |
+string-2 | `
+tag | \
+undefined |
+builtin | #\some-id
+null |
+null | {
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | purple
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // auto detect html-like string template without the hint
+undefined |
+keyword | const
+null |
+def | otherHTML
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | div
+null |
+attribute | class
+null | =
+string | "bar"
+tag bracket | >
+undefined |
+null |
+null | hello
+undefined |
+tag bracket | </
+tag | div
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // corner case: that  text after the last html tag / css rule.
+undefined |
+comment | // ensure they won't break subsequent highlighting
+undefined |
+variable | someHTML
+operator | =
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | text
+tag bracket | </
+tag | p
+tag bracket | >
+null | \n
+string-2 | `
+undefined | ;
+undefined |
+variable | foo
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+variable | someHTML
+operator | =
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | text
+tag bracket | </
+tag | p
+tag bracket | >
+null | \n
+string-2 | `
+undefined | ;
+null |
+comment | // some comments after the template
+undefined |
+variable | foo
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+variable | someHTML
+operator | =
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | text
+tag bracket | </
+tag | p
+tag bracket | >
+null | more text post last tag
+string-2 | `
+undefined | ;
+undefined |
+variable | foo
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | border
+null | :
+null |
+number | 1px
+null | ;
+undefined |
+null | }
+null |
+tag | acme
+string-2 | `
+undefined | ;
+undefined |
+variable | bar
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+undefined |
+comment | // corner case: there are backticks within HTML string templates
+undefined |
+variable | someHTML
+operator | =
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | text
+undefined |
+null |
+null | line 2 with \`, i.e., escaped backtick
+undefined |
+tag bracket | </
+tag | p
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | foo
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+variable | someHTML
+operator | =
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | text
+undefined |
+null |
+null | line 2 ended escaped backtick, i.e., \`
+undefined |
+tag bracket | </
+tag | p
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | bar
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+undefined |
+comment | // plain string support
+undefined |
+undefined |
+keyword | var
+null |
+variable | uiHtml
+null |
+operator | =
+null |
+string | '
+tag bracket | <
+tag | h1
+tag bracket | >
+null | heading
+tag bracket | </
+tag | h1
+tag bracket | >
+string | '
+null |
+operator | +
+undefined |
+null |
+string | '
+tag bracket | <
+tag | span
+null |
+attribute | id
+null | =
+string | "someId"
+null |
+attribute | class
+null | =
+string | "foo"
+tag bracket | >
+null | time is:
+string | '
+null |
+operator | +
+null |
+variable | now
+null |
+operator | +
+null |
+string | '
+tag bracket | </
+tag | span
+tag bracket | >
+string | '
+null |
+operator | +
+undefined |
+null |
+string | '
+null |
+tag bracket | <
+tag | br
+tag bracket | >
+string | '
+null |
+operator | +
+null |
+comment | // leading spaces okay
+undefined |
+null |
+string | '
+tag bracket | <
+tag | br
+tag bracket | >
+string | '
+null |
+operator | +
+undefined |
+null |
+string | '
+tag bracket | <
+tag | br
+tag bracket | />
+string | '
+null |
+operator | +
+undefined |
+null |
+string | "
+tag bracket | <
+tag | br
+null |
+tag bracket | />
+string | "
+null |
+operator | +
+null |
+comment | // double-quoted string
+undefined |
+null |
+string | "
+tag bracket | </
+tag | div
+null |
+tag bracket | >
+string | "
+null |
+operator | +
+null |
+comment | // doesn't complain if there is no opening <div>
+undefined |
+null |
+string | '
+tag bracket | <
+tag | img
+null |
+attribute | alt
+null | =
+string | "Quotes \'in text\'"
+null |
+attribute | src
+null | =
+string | "bar.jpg"
+tag bracket | >
+string | '
+undefined | ;
+null |
+comment | // handle some escaping quotes well
+undefined |
+undefined |
+keyword | var
+null |
+variable | dbgMsg
+null |
+operator | =
+null |
+string | '<-- output'
+undefined | ;
+null |
+comment | // doesn't get mistaken as html
+undefined |
+undefined |
+comment | // some limitations
+undefined |
+comment | //
+undefined |
+variable | someElt
+undefined | .
+variable | innerHTML
+null |
+operator | =
+null |
+string | "
+tag bracket | <
+tag | br
+null |
+attribute | class
+null | =
+string | \
+string error | " foo\"
+tag bracket | >
+string | "
+null |
+operator | +
+null |
+comment | // does not handle some escaping well
+undefined |
+null |
+string | '
+tag bracket | <
+tag | div
+null |
+attribute | class
+null | =
+string | "
+string | '
+null |
+operator | +
+null |
+variable | classToUse
+null |
+operator | +
+null |
+string | '"></div>'
+null |
+operator | +
+null |
+comment | // doesn't detect if a string begins with a partial tag
+undefined |
+null |
+string | 'plain text <hr>'
+undefined | ;
+null |
+comment | // doesn't detect if some plain text at the beginning.
+undefined |
+undefined |
+variable | console
+undefined | .
+variable | debug
+undefined | (
+string | '
+tag bracket | <
+tag | dbg
+tag bracket | >
+null |
+null | this is some debug statement
+string | '
+undefined | )
+undefined | ;
+null |
+comment | // mistaken as html as the string  starts with a tag
+undefined |
+undefined |
+comment | //
+undefined |
+comment | // Tests for handling js expression inside a string template,
+undefined |
+comment | // especially those with nested string templates.
+undefined |
+undefined |
+comment | // Ensure js expression inside tag text content are handled properly
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | 'foo'
+tag bracket | >
+null |
+string-2 | ${
+variable | someText
+string-2 | }
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | 'foo'
+tag bracket | >
+null | prefix
+string-2 | ${
+variable | someText
+string-2 | }
+null | suffix
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | 'foo'
+tag bracket | >
+null | prefix
+string-2 | ${
+variable | someText
+string-2 | }
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | 'foo'
+tag bracket | >
+null |
+string-2 | ${
+variable | someText
+string-2 | }
+null | suffix
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | 'foo'
+tag bracket | >
+undefined |
+null |
+null |
+string-2 | ${
+variable | someText
+string-2 | }
+undefined |
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+comment | // nested string template in tag text
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | 'foo'
+tag bracket | >
+undefined |
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+string-2 | `true-${
+variable | someVarValue
+string-2 | }
+string-2 | `
+undefined |
+null |
+undefined | :
+null |
+variable | getFalseText
+undefined | (
+undefined | )
+string-2 | }
+undefined |
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // ensure backtick within a JS expression are tokenized as part of the expression,
+undefined |
+comment | // rather than incorrectly ending the string template
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title
+undefined |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // works too for backtick in the expression not at the beginning of a token/line.
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title`
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // ensure simple cases work too
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | someTitle
+string-2 | }
+string | "
+tag bracket | >
+null | Hello
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "prefix
+string-2 | ${
+variable | someTitle
+string-2 | }
+null |
+string | suffix"
+tag bracket | >
+null | Hello
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+tag bracket | >
+null |
+string-2 | ${
+variable | someTextFunc
+undefined | (
+undefined | )
+string-2 | }
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // different attribute value quoting styles
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | '
+string-2 | ${
+variable | someTitle
+string-2 | }
+string | '
+tag bracket | >
+null | Hello
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | id
+null | =
+string | "
+string-2 | ${
+variable | someId
+string-2 | }
+string | "
+null |
+attribute | title
+null | =
+string | '
+string-2 | ${
+variable | someTitle
+string-2 | }
+string | '
+tag bracket | >
+null | Hello
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | id
+null | =
+string | "
+string-2 | ${
+variable | someId
+string-2 | }
+string | "
+null |
+attribute | title
+null | =
+string | '
+string-2 | ${
+variable | someTitle
+string-2 | }
+string | '
+null |
+attribute | col
+null | =
+string |
+string-2 | ${
+variable | getCol
+undefined | (
+undefined | )
+string-2 | }
+tag bracket | >
+null | Hello
+tag bracket | <
+tag | section
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // js expressions in multi-lined attribute value
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | span
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | someVar
+string-2 | }
+undefined |
+null |
+string | "
+tag bracket | >
+null | text content
+tag bracket | </
+tag | span
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | span
+null |
+attribute | title
+null | =
+string | "
+undefined |
+string |
+string-2 | ${
+variable | someVar
+string-2 | }
+string | "
+tag bracket | >
+undefined |
+null |
+null | text content
+tag bracket | </
+tag | span
+tag bracket | >
+string-2 | `
+undefined |
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | span
+null |
+attribute | title
+null | =
+string | "
+undefined |
+null |
+string |
+string-2 | ${
+variable | someVar
+string-2 | }
+string | "
+tag bracket | >
+undefined |
+null |
+null | text content
+tag bracket | </
+tag | span
+tag bracket | >
+string-2 | `
+undefined |
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | span
+null |
+attribute | title
+null | =
+string | "foo
+undefined |
+null |
+string |
+string-2 | ${
+variable | someVar
+string-2 | }
+null |
+string | blah"
+tag bracket | >
+undefined |
+null |
+null | text content
+tag bracket | </
+tag | span
+tag bracket | >
+string-2 | `
+undefined |
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | span
+null |
+attribute | title
+null | =
+string | "foo
+undefined |
+null |
+string |
+string-2 | ${
+variable | someVar
+string-2 | }
+undefined |
+null |
+string | blah"
+tag bracket | >
+undefined |
+null |
+null | text content
+tag bracket | </
+tag | span
+tag bracket | >
+string-2 | `
+undefined |
+undefined |
+comment | // ensure nested case works too
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title ${
+variable | foo
+null |
+operator | ?
+null |
+string-2 | `val1`
+null |
+undefined | :
+string-2 | `val2
+undefined |
+string-2 | `
+string-2 | }
+undefined |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // nested case 2
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title
+undefined |
+null |
+string-2 | ${
+variable | someExpr
+undefined | (
+undefined | )
+string-2 | }
+undefined |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // leading blank spaces before inner ending backtick
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title
+undefined |
+null |
+string-2 | ${
+variable | someExpr
+undefined | (
+undefined | )
+string-2 | }
+undefined |
+null |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // } inside the expression is treated properly too
+undefined |
+keyword | let
+null |
+def | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title } the close curly bracket is not mistaken as the ending bracket
+undefined |
+string-2 | <br>other text
+undefined |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | section
+null |
+attribute | title
+null | =
+string | "
+string-2 | ${
+variable | trimLeft
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title
+undefined |
+string-2 | }
+undefined |
+string-2 | the close curly bracket above (a standalone token) is not mistaken as the ending bracket
+undefined |
+string-2 | <br>other text
+undefined |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+tag bracket | >
+null | Hello World
+undefined |
+tag bracket | </
+tag | section
+tag bracket | >
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // corner cases involving escaping
+undefined |
+comment | // - not a legit js expression, as the $ is escaped
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+variable | String
+undefined | .
+property | raw
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | prefix\${expr1()}suffix2
+tag bracket | </
+tag | p
+tag bracket | >
+tag bracket | <
+tag | hr
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+comment | // - a legit js expression, the $ looks escaped, but it is not: the backslash itself is escaped
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+variable | String
+undefined | .
+property | raw
+string-2 | `
+tag bracket | <
+tag | p
+tag bracket | >
+null | prefix\\
+string-2 | ${
+variable | expr1
+undefined | (
+undefined | )
+string-2 | }
+null | suffix
+tag bracket | </
+tag | p
+tag bracket | >
+tag bracket | <
+tag | hr
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+keyword | const
+null |
+def | foo
+null |
+operator | =
+null |
+number | 1
+undefined | ;
+undefined |
+undefined |
+comment | // works for CSS too
+undefined |
+undefined |
+comment | // js expression in CSS
+undefined |
+comment | // cases js expression in property value
+undefined |
+comment | /*css*/
+null |
+string-2 | `
+builtin | #m-popup
+null |
+null | {
+undefined |
+null |
+property | position
+null | :
+null |
+null |
+string-2 | ${
+variable | posVar
+null |
+operator | ?
+null |
+string | 'fixed'
+null |
+undefined | :
+null |
+string | 'absolute'
+string-2 | }
+null |
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+null |
+comment | /* tokenization recover in subsequent line */
+undefined |
+null |
+property | background-color
+null | :
+null |
+null |
+string-2 | ${
+variable | backgroundColorVal
+string-2 | }
+null |
+null | ;
+undefined |
+null |
+property | border
+null | :
+null |
+number | 1px
+null |
+null |
+string-2 | ${
+variable | styleVarCall
+undefined | (
+variable | param1
+undefined | )
+string-2 | }
+null |
+null |
+null |
+string-2 | ${
+variable | borderColorVar
+string-2 | }
+null |
+null | ;
+undefined |
+null |
+property | margin-top
+null | :
+null |
+number | 1em
+null | ;
+undefined |
+null |
+property | font-family
+null | :
+null |
+null |
+string-2 | ${
+variable | preferredFont
+string-2 | }
+null |
+null | ,
+null |
+string | 'Times New Roman'
+null | ,
+null |
+variable | Times
+null | ,
+null |
+atom | serif
+null | ;
+undefined |
+null |
+property | margin-bottom
+null | :
+null |
+null |
+string-2 | ${
+variable | marginBot
+string-2 | }
+null |
+variable | em
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // cases js expression in property name
+undefined |
+comment | /*css*/
+null |
+string-2 | `
+builtin | #m-popup
+null |
+null | {
+undefined |
+null |
+null |
+string-2 | ${
+variable | marginPropVar
+string-2 | }
+null |
+null | :
+null |
+number | 1px
+null | ;
+null |
+comment | /* some css comment */
+undefined |
+null |
+null |
+string-2 | ${
+variable | marginOrPaddingVar
+string-2 | }
+null |
+undefined | -
+property | left
+null | :
+null |
+number | 1px
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+undefined |
+comment | // case the js expression is for entire property-value
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+comment | /*css*/
+null |
+string-2 | `
+builtin | #m-popup
+null |
+null | {
+undefined |
+null |
+property | position
+null | :
+null |
+atom | fixed
+null | ;
+undefined |
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+string | 'max-width: 100%;'
+null |
+undefined | :
+null |
+string | ''
+string-2 | }
+undefined |
+null |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+undefined |
+comment | // case the js expression contains nested backticks (in js expression)
+undefined |
+comment | // ensure it does not screw up the the tokenization of the rest
+undefined |
+variable | someUi
+null |
+operator | =
+null |
+comment | /*css*/
+null |
+string-2 | `
+builtin | #m-popup
+null |
+null | {
+undefined |
+null |
+property | position
+null | :
+null |
+atom | fixed
+null | ;
+undefined |
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+string-2 | `max-width: ${
+variable | floor
+undefined | (
+variable | maxPct
+undefined | )
+string-2 | }
+string-2 | %;`
+null |
+undefined | :
+null |
+string | ''
+string-2 | }
+undefined |
+null |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null |
+comment | /* sub case the nested string template spans multiple lines */
+undefined |
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+string-2 | `max-width: ${
+variable | floor
+undefined | (
+undefined |
+variable | maxPct
+undefined | )
+string-2 | }
+string-2 | %;`
+null |
+undefined | :
+null |
+string | ''
+string-2 | }
+undefined |
+null |
+null |
+property | background-color
+null | :
+null |
+atom | #333
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+comment | // case the value of content (that css tokenizer treats it as long token)
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+variable | func1
+undefined | (
+undefined | )
+null |
+undefined | :
+null |
+variable | func2
+undefined | (
+undefined | )
+string-2 | }
+null |
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // multi-line in content: js expression is tokenized correctly,
+undefined |
+comment | // a minor glitch for the end comma (see limitation in quoted string below)
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "
+string-2 | ${
+variable | trimBlanks
+undefined | (
+string-2 | `
+undefined |
+null |
+string-2 | Some title
+undefined |
+string-2 | `
+undefined | )
+string-2 | }
+string | "
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+undefined |
+undefined |
+qualifier | .bar
+null |
+null | {
+undefined |
+null |
+property | border
+null | :
+null |
+number | 1px
+null |
+atom | solid
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+undefined |
+comment | // cases the js expression is in a quoted string in CSS
+undefined |
+undefined |
+comment | // sub-case the js expression is the entire quoted string
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "
+string-2 | ${
+variable | someContent
+string-2 | }
+string | "
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // sub-case: additional quoted string after the js expression
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | font-family
+null | :
+null |
+string | '
+string-2 | ${
+variable | preferredFont
+string-2 | }
+string | '
+null | ,
+null |
+string | 'Times New Roman'
+null | ,
+null |
+variable | Times
+null | ,
+null |
+atom | serif
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+undefined |
+undefined |
+qualifier | .bar
+null |
+null | {
+undefined |
+null |
+property | font-family
+null | :
+null |
+string | '
+string-2 | ${
+variable | preferredFont
+string-2 | }
+string | '
+null | ,
+null |
+string | '
+string-2 | ${
+variable | fallBackFont
+string-2 | }
+string | '
+null | ,
+null |
+variable | Times
+null | ,
+null |
+atom | serif
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // sub-case the js expression has prefix / suffix
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "prefix
+string-2 | ${
+variable | someContent
+string-2 | }
+string |  suffix"
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+undefined |
+undefined |
+qualifier | .bar
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "
+string-2 | ${
+variable | someContent
+string-2 | }
+string | suffix"
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+undefined |
+undefined |
+qualifier | .bar2
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "prefix
+string-2 | ${
+variable | someContent
+string-2 | }
+string | "
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // Media queries
+undefined |
+variable | GM
+undefined | .
+property | addStyle
+undefined | (
+string-2 | `
+tag | \
+undefined |
+def | @media
+null |
+attribute | screen
+null |
+keyword | and
+null |
+null | (
+property | max-width
+null | :
+null |
+null |
+string-2 | ${
+variable | maxWidthPlusUnit
+string-2 | }
+null |
+null | )
+null |
+null | {
+undefined |
+null |
+qualifier | .side-nav
+null |
+null | {
+undefined |
+null |
+property | display
+null | :
+null |
+atom | none
+null | ;
+undefined |
+null |
+null | }
+undefined |
+null | }
+undefined |
+undefined |
+def | @media
+null |
+null |
+string-2 | ${
+variable | critieria1
+string-2 | }
+null |
+null |
+keyword | and
+null |
+null | (
+null |
+string-2 | ${
+variable | critieria2
+string-2 | }
+null |
+null | :
+null |
+number | 600px
+null | )
+null |
+null | {
+undefined |
+null |
+qualifier | .side-nav
+null |
+null | {
+undefined |
+null |
+property | display
+null | :
+null |
+null |
+string-2 | ${
+variable | displayVar
+string-2 | }
+null |
+null | ;
+undefined |
+null |
+property | background-color
+null | :
+null |
+keyword | darkblue
+null | ;
+undefined |
+null |
+null | }
+undefined |
+null | }
+undefined |
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // Limitation: cases js expression is a partial property name
+undefined |
+comment | // tokenizer would indicate errors when there is none.
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+builtin | #m-popup
+null |
+null | {
+undefined |
+null |
+property error | border-
+null |
+string-2 | ${
+variable | leftOrRightVal
+string-2 | }
+null |
+null | :
+null |
+number | 1px
+null |
+property error | solid
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // Limitation: cases there are multiple js expressions in 1 quoted string
+undefined |
+comment | // only the first one expression is tokenized as such. the rest are string
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .bar3
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "
+string-2 | ${
+variable | someContent1
+string-2 | }
+string | ${someContent2}"
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+undefined |
+qualifier | .bar4
+null |
+null | {
+undefined |
+null |
+property | content
+null | :
+null |
+string | "prefix
+string-2 | ${
+variable | someContent1
+string-2 | }
+string |  foo ${someContent2} suffix"
+null | ;
+undefined |
+null |
+property | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null | }
+undefined |
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // Limitation: cases when numbers (with units) contain JS expressions
+undefined |
+comment | // when there are JS expressions, there is no reliable way to
+undefined |
+comment | // tell the resulting string would be a number
+undefined |
+variable | GM_addStyle
+undefined | (
+string-2 | `
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | font-size
+null | :
+null |
+number | 16px
+null | ;
+null |
+comment | /* for reference for normal styling */
+undefined |
+null |
+property | margin-bottom
+null | :
+null |
+null |
+string-2 | ${
+variable | marginBot
+string-2 | }
+null |
+variable | em
+null | ;
+undefined |
+null |
+property | margin-top
+null | :
+null |
+number | 12
+null |
+string-2 | ${
+variable | marginUnit
+string-2 | }
+null |
+null | ;
+undefined |
+null |
+property | margin-left
+null | :
+null |
+null |
+string-2 | ${
+variable | marginLeft
+string-2 | }
+null |
+null |
+string-2 | ${
+variable | marginUnit
+string-2 | }
+null |
+null | ;
+undefined |
+null | }
+undefined |
+undefined |
+def | @media
+null |
+attribute | screen
+null |
+keyword | and
+null |
+null | (
+property | max-width
+null | :
+null |
+number | 300
+null |
+string-2 | ${
+variable | unitVar
+string-2 | }
+null |
+null | )
+null |
+null | {
+undefined |
+null |
+qualifier | .side-nav
+null |
+null | {
+undefined |
+null |
+property | display
+null | :
+null |
+atom | none
+null | ;
+undefined |
+null |
+null | }
+undefined |
+null | }
+undefined |
+undefined |
+def | @media
+null |
+attribute | screen
+null |
+keyword | and
+null |
+null | (
+property | max-width
+null | :
+null |
+null |
+string-2 | ${
+variable | maxWidthNoUnit
+string-2 | }
+null |
+error | px
+null | )
+null |
+null | {
+undefined |
+null |
+qualifier | .side-nav
+null |
+null | {
+undefined |
+null |
+property | display
+null | :
+null |
+atom | block
+null | ;
+undefined |
+null |
+null | }
+undefined |
+null | }
+undefined |
+string-2 | `
+undefined | )
+undefined | ;
+undefined |
+undefined |
+comment | // Support highlighting css/javascript in <style>, <script> tags in html
+undefined |
+variable | someMixedHtml
+null |
+operator | =
+null |
+string-2 | `
+tag bracket | <
+tag | div
+tag bracket | >
+null | 123
+tag bracket | </
+tag | div
+tag bracket | >
+undefined |
+tag bracket | <
+tag | style
+tag bracket | >
+undefined |
+null |
+comment | /* embedded css in html string template, with js expressions */
+undefined |
+null |
+qualifier | .foo
+null |
+null | {
+undefined |
+null |
+property | background-color
+null | :
+null |
+atom | #333
+null | ;
+undefined |
+null |
+property | position
+null | :
+null |
+null |
+string-2 | ${
+variable | posVar
+null |
+operator | ?
+null |
+string | 'fixed'
+null |
+undefined | :
+null |
+string | 'absolute'
+string-2 | }
+null | ;
+undefined |
+null |
+property | border
+null | :
+null |
+number | 1px
+null |
+null |
+string-2 | ${
+variable | styleVarCall
+undefined | (
+variable | param1
+undefined | )
+string-2 | }
+null |
+null |
+string-2 | ${
+variable | borderColorVar
+string-2 | }
+null | ;
+undefined |
+null |
+property | font-family
+null | :
+null |
+string | '
+string-2 | ${
+variable | preferredFont
+string-2 | }
+string | ', '
+variable | Times
+null |
+variable | New
+null |
+variable | Roman
+string | ', Times, serif;
+undefined |
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+string-2 | `max-width: ${
+variable | floor
+undefined | (
+variable | maxPct
+undefined | )
+string-2 | }
+string-2 | %;`
+null |
+undefined | :
+null |
+string | ''
+string-2 | }
+undefined |
+null |
+atom | color
+null | :
+null |
+keyword | red
+null | ;
+undefined |
+null |
+null |
+string-2 | ${
+variable | someCond
+null |
+operator | ?
+null |
+string-2 | `max-width: ${
+variable | floor
+undefined | (
+undefined |
+null |
+variable | maxPct
+undefined | )
+string-2 | }
+string-2 | %;`
+null |
+undefined | :
+null |
+string | ''
+string-2 | }
+undefined |
+null |
+null |
+string-2 | ${
+variable | borderPropName
+string-2 | }
+null | :
+null |
+number | 1px
+null | ;
+undefined |
+null |
+property | margin-top
+null | :
+null |
+number | 1em
+null | ;
+undefined |
+null |
+null | }
+undefined |
+null |
+tag bracket | </
+tag | style
+tag bracket | >
+undefined |
+tag bracket | <
+tag | script
+tag bracket | >
+undefined |
+null |
+keyword | const
+null |
+def | res
+null |
+operator | =
+null |
+variable | someFunc
+undefined | (
+variable | arg1
+undefined | )
+undefined | ;
+undefined |
+null |
+comment | // case js expression is evaluated and
+undefined |
+null |
+comment | // the result, not the string template, is to be part of the script.
+undefined |
+null |
+keyword | const
+null |
+def | foo
+null |
+operator | =
+null |
+variable | someFunc
+undefined | (
+variable | $
+undefined | {
+variable | someCond
+null |
+operator | ?
+null |
+atom | true
+null |
+undefined | :
+null |
+atom | false
+undefined | }
+undefined | )
+undefined | ;
+undefined |
+undefined |
+null |
+comment | // cases the script contains its own js string templates (thus escaping)
+undefined |
+null |
+comment | // limitation: it will screw up syntax highlighting for the rest of the script text
+undefined |
+null |
+keyword | let
+null |
+def | bar1
+null |
+operator | =
+null |
+undefined | \
+string-2 | `some content in string template\`;
+undefined |
+null |
+string-2 | let bar2 = \`\${someFunc() + 456}\`;
+undefined |
+null |
+string-2 | let bar3 = 123;
+undefined |
+null |
+tag bracket | </
+tag | script
+tag bracket | >
+undefined |
+tag bracket | <
+tag | p
+tag bracket | >
+null |
+null | Text after script tag
+tag bracket | <
+tag | em
+tag bracket | >
+null | highlighted
+tag bracket | </
+tag | em
+tag bracket | >
+null |
+null | correctly.
+tag bracket | </
+tag | p
+tag bracket | >
+undefined |
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+keyword | var
+null |
+def | end
+null |
+operator | =
+null |
+atom | true
+undefined | ;
+undefined |
+undefined |
