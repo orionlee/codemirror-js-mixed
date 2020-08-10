@@ -1,0 +1,114 @@
+<!doctype html>
+
+<title>CodeMirror: Javascript Mixed mode</title>
+<meta charset="utf-8"/>
+
+<link rel="stylesheet" href="../../node_modules/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="../../node_modules/codemirror/theme/blackboard.css">
+<script src="../../node_modules/codemirror/lib/codemirror.js"></script>
+<script src="../../node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="../../node_modules/codemirror/addon/comment/continuecomment.js"></script>
+<script src="../../node_modules/codemirror/addon/comment/comment.js"></script>
+<script src="../../node_modules/codemirror/mode/css/css.js"></script>
+<script src="../../node_modules/codemirror/mode/javascript/javascript.js"></script>
+<script src="../../node_modules/codemirror/mode/xml/xml.js"></script>
+<script>
+  // Used by javascript-mixed
+  window.process = { env: { DEBUG: false } };
+</script>
+<script src="javascript-mixed.js"></script>
+<style>.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+
+<article style="margin-left: 50px;">
+<h2><a target="_blank" href="https://codemirror.net">CodeMirror</a> Javascript Mixed mode</h2>
+
+
+<div><textarea id="code" name="code">
+document.body.insertAdjacentHTML('beforeend', `<div class="foo">
+  <p>hello <i>world</i></p>
+</div>
+<style>
+  div {
+  	color: #00f;
+  }
+</style>
+some text
+`);
+someElt.insertAdjacentHTML('afterbegin', `<div>
+  <hr class="bar">
+  </div>`);
+
+GM_addStyle(`
+#id div {
+  color: #FF0000;
+}`);
+
+function foo() { let bar = 1; }
+
+someElt.innerHTML = `<span id="bar">
+  123 <!-- html comments -->
+</span>`;
+
+someElt.innerHTML += `<div>
+  foo</div>`;
+
+someElt.outerHTML += `<span>
+  foo2</span>`;
+
+// handle single-line HTML/CSS
+fooElt.innerHTML = `<hr class="bar">`;
+
+GM_addStyle(`#foo { display: none; }`);
+
+function foo2() { let bar2 = 2; }
+
+// highlight arbitrary string template by using a inline comment as a hint
+var someHTML = /* html */ `<br>
+  <hr class="acme">`;
+
+var someCSS = /* CSS  */ `.a:visited {
+  color: purple;
+}`;
+
+
+function foo3() { let bar3 = 3; }
+
+</textarea>
+</div>
+
+<textarea id="hidden" style="display: none;">
+GM_addHtml(`<section>
+  bar
+  </section>`);
+GM_addStyle(`
+#id div {
+  color: #FF0000;
+}`);
+document.body.insertAdjacentHTML('beforeend', `<div class="foo">
+  <p>hello <i>world</i></p>
+</div>`);
+</textarea>
+
+    <br>
+    <button onclick="editor.setOption('mode', 'javascript-mixed');">JS mixed mode</button>
+    &emsp;<button onclick="editor.setOption('mode', 'javascript');">JS mode</button>
+
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: 'javascript-mixed',
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        continueComments: "Enter",
+        extraKeys: {"Ctrl-Q": "toggleComment"},
+        "theme": "blackboard",
+      });
+
+      function selectTheme() {
+        var theme = location.hash.slice(1);
+        if (theme) { editor.setOption("theme", theme); }
+      }
+      selectTheme();
+    </script>
+
+  </article>
