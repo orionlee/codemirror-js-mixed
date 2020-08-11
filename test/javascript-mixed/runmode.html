@@ -52,7 +52,7 @@
   <button onclick="doAllPerformanceTestsWithUI();">Performance Test</button>
   num. of runs: <input id="perfTestNumRuns" type="number" value="20" style="width: 5em;">
   <textarea id="code-perftest" style="width: 90%; height: 7em; border: 1px solid black; padding: .2em .4em;" rows="5"></textarea>
-  <textarea id="output-perftest" cols="1000" rows="20" spellcheck="false" style="display: none; border: 1px; solid gray;" readonly></textarea>
+  <textarea id="output-perftest" cols="1000" rows="20" spellcheck="false" style="display: none; border: 1px solid gray;" readonly></textarea>
   <script>
     async function loadSources() {
       let resp = await fetch('code-source.txt');
@@ -178,8 +178,8 @@
           CodeMirror.runMode(code, mode, function(text, style) {
             numTokens++;
             if (text === EOF_HINT) {
-              const timeElpased = Date.now() - timeStart;
-              resolve({ timeElpased: timeElpased, numTokens: numTokens });
+              const timeElapsed = Date.now() - timeStart;
+              resolve({ timeElapsed: timeElapsed, numTokens: numTokens });
             }
           });
         });
@@ -193,7 +193,7 @@
       for(let i = 0; i < numRuns; i++) {
         const oneTestRes = await testOnce();
         res.numTokens = oneTestRes.numTokens;
-        res.timeElapsedList.push(oneTestRes.timeElpased);
+        res.timeElapsedList.push(oneTestRes.timeElapsed);
       }
 
       res.timeElapsedList.sort((a,b) => a < b ? -1 : (a > b ? 1 : 0)); // easier to spot min/max
