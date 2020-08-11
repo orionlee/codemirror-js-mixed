@@ -1,6 +1,6 @@
 {
   "name": "codemirror-js-mixed",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "scripts": {
     "test": "tape -r ./test/mock/register ./test/javascript-mixed/javascript-mixed.test.js",
     "lint": "eslint . --ext .js"
@@ -25,6 +25,7 @@
     "codemirror": "^5.55.0",
     "eslint": "^7.6.0",
     "jsdom": "^16.4.0",
+    "static-server": "^2.2.1",
     "tape": "^5.0.1"
   },
   "author": "Sam Lee <orionlee@yahoo.com>",
