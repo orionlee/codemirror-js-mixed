@@ -1,3 +1,11 @@
+`runmode.html` helper:
+- let you highlight the specified sources in standalone
+- useful to check the details of the token generated
+- it is used to construct the regression test input / output.
+- To use it, run `bin/start-runmode.sh` in project root. Open the specified URL in a browser.
+    - Open the helper as file (i.e.,  with `file://` protocol ) will not work: It uses `fetch` to get the sample input sources, which requires http protocol.
+
+
 Note about version history:
 - Version `v0.9.0` is basically a snapshot of the code from (with minor path adjustment):
   https://github.com/orionlee/violentmonkey/commit/3535cddd16028bd727a2cc04b44bd31829417f29
