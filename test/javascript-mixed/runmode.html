@@ -21,11 +21,18 @@
     font-weight: bold;
   }
 </style>
+
+<div id="fileUrlWarningMsg" style="display: none;
+  background-color: rgba(255,0,0,0.7); margin: 1em 0 2em 0; padding: 0.5em 4ch 0.5em 4ch; border-radius: 10px;">
+  Warning: You are viewing the page via <code>file://</code> protocol. Sample codes cannot be loaded.
+  Please open the page using http instead.
+  <br>
+  <b><code>bin/start-runmode.sh</code></b> is a helper to serve the page via http.
+</div>
+
 <article>
   <h1>Run CodeMirror Mode</h1>
 
-
-  <iframe id="ifr_code" style="display: none;"></iframe>
   <textarea id="code" style="width: 90%; height: 7em; border: 1px solid black; padding: .2em .4em;"></textarea>
 
   <br>
@@ -54,6 +61,12 @@
   <textarea id="code-perftest" style="width: 90%; height: 7em; border: 1px solid black; padding: .2em .4em;" rows="5"></textarea>
   <textarea id="output-perftest" cols="1000" rows="20" spellcheck="false" style="display: none; border: 1px solid gray;" readonly></textarea>
   <script>
+    function warnIfServedFromFile() {
+      if (location.protocol === 'file:') {
+        document.getElementById('fileUrlWarningMsg').style.display = 'block';
+      }
+    }
+
     async function loadSources() {
       let resp = await fetch('code-source.txt');
       document.getElementById('code').value = await resp.text();
