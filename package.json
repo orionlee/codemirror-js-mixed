@@ -1,6 +1,6 @@
 {
   "name": "codemirror-js-mixed",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "scripts": {
     "test": "tape -r ./test/mock/register ./test/javascript-mixed/javascript-mixed.test.js",
     "lint": "eslint . --ext .js"
