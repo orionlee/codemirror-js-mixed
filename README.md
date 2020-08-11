@@ -1,3 +1,5 @@
+[![NPM version](https://img.shields.io/npm/v/codemirror-js-mixed?color=blue)](https://www.npmjs.com/package/codemirror-js-mixed)
+
 # Javascript-mixed mode for CodeMirror
 
 A language mode for [CodeMirror](https://codemirror.net/), support highlighting HTML/CSS in javascript codes.
