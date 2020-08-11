@@ -11,3 +11,8 @@ A language mode for [CodeMirror](https://codemirror.net/), support highlighting 
 - Highlights arbitrary template strings as HTML / CSS by prepending an inline `/*html*/` and `/*css*/` hint respectively.
 
 ## Installation
+To add it to your project, assuming `codemirror` has been installed:
+
+```
+npm install codemirror-js-mixed
+```
