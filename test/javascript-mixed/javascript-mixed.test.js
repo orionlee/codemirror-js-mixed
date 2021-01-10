@@ -24,7 +24,7 @@ test('codemirror javascript-mixed regression', (t) => {
       } else {
         // write the output to a file for ease of manual diffs when regression happens
         fs.writeFileSync(path.join(__dirname, 'code-tokens.out'), tokenRes, 'utf8');
-        t.equal(tokenRes, expected);
+        t.equal(tokenRes.replace(/\r\n/g, '\n'), expected.replace(/\r\n/g, '\n'));
         t.end();
       }
     });
