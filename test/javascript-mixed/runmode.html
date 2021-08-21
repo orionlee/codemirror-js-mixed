@@ -68,7 +68,7 @@
     }
 
     async function loadSources() {
-      let resp = await fetch('code-source.txt');
+      let resp = await fetch('code-source.js');
       document.getElementById('code').value = await resp.text();
 
       resp = await fetch('code-perftest-source.txt');
