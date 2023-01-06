@@ -5,7 +5,7 @@ Testing:
 - let you highlight the specified sources in standalone
 - useful to check the details of the token generated
 - it is used to construct the regression test input / output.
-- By default, it reads the test case file, [`test/javascript-mixed/code-source.txt`](test/javascript-mixed/code-source.txt), and highlights it.
+- By default, it reads the test case file, [`test/javascript-mixed/code-source.js`](test/javascript-mixed/code-source.js), and highlights it.
 - To use it, run `bin/start-runmode.sh` in project root. Open the specified URL in a browser.
     - Open the helper as file (i.e.,  with `file://` protocol ) will not work: It uses `fetch` to get the sample input sources, which requires http protocol.
 
