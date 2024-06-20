@@ -4,6 +4,8 @@ comment | // @name Test HTML/CSS highlights
 undefined |
 comment | // ==/UserScript==
 undefined |
+comment | /* eslint-disable no-undef, no-unused-vars */
+undefined |
 undefined |
 variable | document
 undefined | .
@@ -222,7 +224,7 @@ undefined |
 undefined |
 comment | // highlight arbitrary string template with a inline comment as a hint
 undefined |
-keyword | const
+keyword | let
 null |
 def | someHTML
 null |
@@ -238,6 +240,52 @@ tag | br
 tag bracket | >
 undefined |
 null |
+tag bracket | <
+tag | hr
+null |
+attribute | class
+null | =
+string | "acme"
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+undefined |
+keyword | const
+null |
+def | someHTMLwithLangHint
+null |
+operator | =
+null |
+comment | /*lang =  html */
+null |
+string-2 | `
+null | some text
+tag bracket | <
+tag | br
+tag bracket | >
+tag bracket | <
+tag | hr
+null |
+attribute | class
+null | =
+string | "acme"
+tag bracket | >
+string-2 | `
+undefined | ;
+undefined |
+keyword | const
+null |
+def | someHTMLwithLanguageHint
+null |
+operator | =
+null |
+comment | /*language=html*/
+string-2 | `
+null | some text
+tag bracket | <
+tag | br
+tag bracket | >
 tag bracket | <
 tag | hr
 null |
@@ -278,9 +326,7 @@ undefined |
 undefined |
 comment | // the inline comment hint also works for tagged string template
 undefined |
-keyword | let
-null |
-def | someCSS
+variable | someCSS
 null |
 operator | =
 null |
@@ -354,7 +400,9 @@ null | \n
 string-2 | `
 undefined | ;
 undefined |
-variable | foo
+keyword | let
+null |
+def | foo
 null |
 operator | =
 null |
@@ -423,6 +471,7 @@ null | }
 null |
 tag | acme
 string-2 | `
+undefined | )
 undefined | ;
 undefined |
 variable | bar
@@ -489,7 +538,7 @@ undefined |
 undefined |
 keyword | var
 null |
-variable | uiHtml
+def | uiHtml
 null |
 operator | =
 null |
@@ -610,7 +659,7 @@ undefined |
 undefined |
 keyword | var
 null |
-variable | dbgMsg
+def | dbgMsg
 null |
 operator | =
 null |
@@ -626,7 +675,7 @@ comment | //
 undefined |
 variable | someElt
 undefined | .
-variable | innerHTML
+property | innerHTML
 null |
 operator | =
 null |
@@ -676,7 +725,7 @@ undefined |
 undefined |
 variable | console
 undefined | .
-variable | debug
+property | debug
 undefined | (
 string | '
 tag bracket | <
@@ -893,15 +942,12 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
 comment | // works too for backtick in the expression not at the beginning of a token/line.
 undefined |
-keyword | let
-null |
-def | someUi
+variable | someUi
 null |
 operator | =
 null |
@@ -929,15 +975,12 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
 comment | // ensure simple cases work too
 undefined |
-keyword | let
-null |
-def | someUi
+variable | someUi
 null |
 operator | =
 null |
@@ -1246,9 +1289,7 @@ undefined |
 undefined |
 comment | // ensure nested case works too
 undefined |
-keyword | let
-null |
-def | someUi
+variable | someUi
 null |
 operator | =
 null |
@@ -1289,15 +1330,12 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
 comment | // nested case 2
 undefined |
-keyword | let
-null |
-def | someUi
+variable | someUi
 null |
 operator | =
 null |
@@ -1334,15 +1372,12 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
 comment | // leading blank spaces before inner ending backtick
 undefined |
-keyword | let
-null |
-def | someUi
+variable | someUi
 null |
 operator | =
 null |
@@ -1380,15 +1415,12 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
 comment | // } inside the expression is treated properly too
 undefined |
-keyword | let
-null |
-def | someUi
+variable | someUi
 null |
 operator | =
 null |
@@ -1420,7 +1452,6 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
@@ -1460,7 +1491,6 @@ tag bracket | </
 tag | section
 tag bracket | >
 string-2 | `
-undefined | )
 undefined | ;
 undefined |
 undefined |
@@ -1519,9 +1549,7 @@ string-2 | `
 undefined | ;
 undefined |
 undefined |
-keyword | const
-null |
-def | foo
+variable | foo
 null |
 operator | =
 null |
