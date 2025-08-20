@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name Test HTML/CSS highlights
 // ==/UserScript==
+/* eslint-disable no-undef, no-unused-vars */
 
 document.body.insertAdjacentHTML('beforeend', `<div class="foo">
   <p>hello <i>world</i></p>
@@ -29,16 +30,19 @@ someElt.innerHTML = `<span id="bar">
 </span>`;
 
 // highlight arbitrary string template with a inline comment as a hint
-const someHTML = /* html */ `some text
+let someHTML = /* html */ `some text
 <br>
   <hr class="acme">`;
+
+const someHTMLwithLangHint = /*lang =  html */ `some text<br><hr class="acme">`;
+const someHTMLwithLanguageHint = /*language=html*/`some text<br><hr class="acme">`;
 
 let someCSS = /* CSS  */ `.a:visited {
   color: purple;
 }`;
 
 // the inline comment hint also works for tagged string template
-let someCSS = String.raw /*css*/ `\
+someCSS = String.raw /*css*/ `\
 #\some-id {
   color: purple;
 }`;
@@ -51,14 +55,14 @@ const otherHTML = `<div class="bar">
 // corner case: that  text after the last html tag / css rule.
 // ensure they won't break subsequent highlighting
 someHTML=`<p>text</p>\n`;
-foo = 1;
+let foo = 1;
 someHTML=`<p>text</p>\n`; // some comments after the template
 foo = 1;
 someHTML=`<p>text</p>more text post last tag`;
 foo = 1;
 GM_addStyle(`.foo {
  border: 1px;
-} acme`;
+} acme`);
 bar = 1;
 
 // corner case: there are backticks within HTML string templates
@@ -115,15 +119,15 @@ someUi = `<section title='foo'>
 let someUi = `<section title="${trimLeft(`
   Some title
 `)}">Hello World
-</section>`);
+</section>`;
 
 // works too for backtick in the expression not at the beginning of a token/line.
-let someUi = `<section title="${trimLeft(`
+someUi = `<section title="${trimLeft(`
   Some title`)}">Hello World
-</section>`);
+</section>`;
 
 // ensure simple cases work too
-let someUi = `<section title="${someTitle}">Hello<section>`;
+someUi = `<section title="${someTitle}">Hello<section>`;
 someUi = `<section title="prefix ${someTitle} suffix">Hello<section>`;
 someUi = `<section>${someTextFunc()}<section>`;
 
@@ -154,32 +158,32 @@ someUi = `<span title="foo
   text content</span>`
 
 // ensure nested case works too
-let someUi = `<section title="${trimLeft(`
+someUi = `<section title="${trimLeft(`
   Some title ${foo ? `val1` :`val2
 `}
 `)}">Hello World
-</section>`);
+</section>`;
 
 // nested case 2
-let someUi = `<section title="${trimLeft(`
+someUi = `<section title="${trimLeft(`
   Some title
   ${someExpr()}
 `)}">Hello World
-</section>`);
+</section>`;
 
 // leading blank spaces before inner ending backtick
-let someUi = `<section title="${trimLeft(`
+someUi = `<section title="${trimLeft(`
   Some title
   ${someExpr()}
   `)}">Hello World
-</section>`);
+</section>`;
 
 // } inside the expression is treated properly too
-let someUi = `<section title="${trimLeft(`
+someUi = `<section title="${trimLeft(`
   Some title } the close curly bracket is not mistaken as the ending bracket
 <br>other text
 `)}">Hello World
-</section>`);
+</section>`;
 
 someUi = `<section title="${trimLeft(`
   Some title
@@ -187,7 +191,7 @@ someUi = `<section title="${trimLeft(`
 the close curly bracket above (a standalone token) is not mistaken as the ending bracket
 <br>other text
 `)}">Hello World
-</section>`);
+</section>`;
 
 // corner cases involving escaping
 // - not a legit js expression, as the $ is escaped
@@ -195,7 +199,7 @@ someUi = String.raw`<p>prefix\${expr1()}suffix2</p><hr>`;
 // - a legit js expression, the $ looks escaped, but it is not: the backslash itself is escaped
 someUi = String.raw`<p>prefix\\${expr1()}suffix</p><hr>`;
 
-const foo = 1;
+foo = 1;
 
 // works for CSS too
 
