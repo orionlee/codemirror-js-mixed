@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
     "codemirror": "^5.55.0",
-    "eslint": "^7.6.0",
+    "eslint": "^9.39.1",
     "jsdom": "^16.4.0",
     "static-server": "^2.2.1",
     "tape": "^5.0.1"
